@@ -35,7 +35,7 @@ def calcular_puntaje(mano):
 #Hacemos el ciclo principal del juego y se repite mientras el saldo sea positivo
 while saldo > 0:
     print("Tu saldo actual es de:  " , saldo)
-    apuesta = int(input("¿Uanto quieres apostar?  "))
+    apuesta = int(input("Cuanto quieres apostar?"))
     if apuesta > saldo:
         print("No puedes apostar mas de tu saldo.")
         continue
@@ -47,4 +47,50 @@ mano_dealer = [pedir(), pedir()]
 #mostramos las cartas del jugador y la carta visible del dealer
 print("tus cartas son:  " , mano_jugador)
 print("tu puntaje actual es:  " , calcular_puntaje(mano_jugador))
-print("la carta visible del dealer es: " , mano_dealer)
+print("la carta visible del dealer es: " , mano_dealer[0])
+
+#Inicia el turno del jugador (pedir carta, plantarse)
+while calcular_puntaje(mano_jugador) < 21:
+    opcion = input("Quieres otra carta si/no: ").lower()
+    if opcion == "si":
+        mano_jugador.append(pedir())
+        print("tus cartas son" , mano_jugador)
+        print("tu puntaje es: " , calcular_puntaje(mano_jugador))
+    else:
+        break
+
+    #si el jugador se pasa de 21, pierde automaticamente
+    if calcular_puntaje(mano_jugador) > 21:
+        print("Perdiste la partida")
+        saldo -= apuesta
+        continue
+
+#turno del dealer (pedir cartas hasta 17 o mas)
+while calcular_puntaje(mano_dealer) > 17:
+    mano_dealer.append(pedir()) 
+
+#Mostramos las cartas del dealer
+
+print("cartas del dealer" , mano_dealer)
+print("Puntaje del dealer" , calcular_puntaje(mano_dealer))
+
+#calculamos puntajes finales
+puntaje_jugador =( calcular_puntaje(mano_jugador))
+puntaje_dealer = (calcular_puntaje(mano_dealer))
+
+#Damos resultados finales
+
+if mano_dealer > 21 or mano_jugador > puntaje_dealer:
+    print("Ganaste la ronda")
+    apuesta += saldo
+elif puntaje_jugador == puntaje_dealer:
+    print("Empate, No ganas ni pierdes  ")
+
+else:
+    print("Perdiste la ronda ")
+    apuesta -= saldo
+
+
+#terminamos el juego si el jugador se queda sin saldo
+print("Te quedaste sin saldo, Fin del juego")
+
