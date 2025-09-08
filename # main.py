@@ -38,7 +38,8 @@ while saldo > 0:
     apuesta = int(input("Cuanto quieres apostar?"))
     if apuesta > saldo:
         print("No puedes apostar mas de tu saldo.")
-        continue
+    else:
+        break
 
 #repartimos cartas iniciales (dos para el jugador y dos para el dealer)
 mano_jugador = [pedir(), pedir()]
@@ -80,9 +81,10 @@ puntaje_dealer = (calcular_puntaje(mano_dealer))
 
 #Damos resultados finales
 
-if mano_dealer > 21 or mano_jugador > puntaje_dealer:
+if puntaje_dealer > 21 or puntaje_dealer < puntaje_jugador:
     print("Ganaste la ronda")
     apuesta += saldo
+
 elif puntaje_jugador == puntaje_dealer:
     print("Empate, No ganas ni pierdes  ")
 
@@ -90,7 +92,7 @@ else:
     print("Perdiste la ronda ")
     apuesta -= saldo
 
-
-#terminamos el juego si el jugador se queda sin saldo
-print("Te quedaste sin saldo, Fin del juego")
-
+#Preguntamos si quiere seguir jugando
+jugar = int(input("Quieres seguir jugando?  (si/no)  "))
+if jugar == "si":
+    
